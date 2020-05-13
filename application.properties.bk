@@ -1,0 +1,22 @@
+quarkus.http.port=9080
+quarkus.log.level=INFO
+#quarkus.kafka-streams.topics=prices
+#quarkus.kafka-streams.application-server=${hostname}:9080
+#quarkus.kafka-streams.bootstrap-servers=ec2-34-207-60-48.compute-1.amazonaws.com:9092
+#quarkus.kafka-streams.application-id=prices-aggregator
+#kafka.bootstrap.servers=ec2-34-207-60-48.compute-1.amazonaws.com:9092
+
+# Configure the Kafka sink (we write to it)
+mp.messaging.outgoing.generated-price.connector=smallrye-kafka
+mp.messaging.outgoing.generated-price.topic=prices
+mp.messaging.outgoing.generated-price.value.serializer=org.apache.kafka.common.serialization.IntegerDeserializer
+mp.messaging.outgoing.generated-price.bootstrap.servers=ec2-34-207-60-48.compute-1.amazonaws.com:9092
+
+# Configure the Kafka source (we read from it)
+mp.messaging.incoming.prices.connector=smallrye-kafka
+mp.messaging.incoming.prices.value.deserializer=org.apache.kafka.common.serialization.IntegerDeserializer
+mp.messaging.incoming.prices.bootstrap.servers=ec2-34-207-60-48.compute-1.amazonaws.com:9092
+mp.messaging.incoming.prices.group.id=kafka-detection-consumer
+mp.messaging.incoming.prices.auto.offset.reset=earliest
+mp.messaging.incoming.prices.enable.auto.commit=true
+mp.messaging.incoming.prices.request.timeout.ms=30000
